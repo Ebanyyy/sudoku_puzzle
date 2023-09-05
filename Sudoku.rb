@@ -1,8 +1,8 @@
 # this is the sudoku in string 015003002000100906270068430490002017501040380003905000900081040860070025037204600
 
-module SudokuSolver
+module SudokuSolver # grouping the classes, methods and contants together
     class Sudoku
-      def initialize(board)
+      def initialize(board) # assigns the board to an instance variable @board
         @board = board
       end
       
@@ -11,9 +11,9 @@ module SudokuSolver
         print_board
       end
       
-      private
+      private # to keep methods within the class and cannot be called from outside
       
-      def solve_sudoku
+      def solve_sudoku # the actual solving / recursive method using backtracking algorithm
         row, col = find_empty_cell
         
         return true if row.nil? # All cells filled, Sudoku solved!
@@ -33,7 +33,7 @@ module SudokuSolver
         false # No valid solution found
       end
       
-      def find_empty_cell
+      def find_empty_cell # finds the empty cell
         @board.each_with_index do |row, i|
           row.each_with_index do |cell, j|
             return [i, j] if cell == 0
@@ -43,7 +43,7 @@ module SudokuSolver
         nil # No empty cell found
       end
       
-      def valid_move?(row, col, num)
+      def valid_move?(row, col, num) # to ensure numbers not used in the same row, column and box
         !used_in_row?(row, num) &&
           !used_in_column?(col, num) &&
           !used_in_box?(row - row % 3, col - col % 3, num)
@@ -57,7 +57,7 @@ module SudokuSolver
         @board.transpose[col].include?(num)
       end
       
-      def used_in_box?(start_row, start_col, num)
+      def used_in_box?(start_row, start_col, num) # used_in checks for used numbers
         (0..2).each do |i|
           (0..2).each do |j|
             return true if @board[start_row + i][start_col + j] == num
@@ -68,7 +68,18 @@ module SudokuSolver
       end
       
       def print_board
-        @board.each { |row| puts row.join(" ") }
+        horizontal_line = "+-------+-------+-------+"
+      
+        @board.each_with_index do |row, i|
+          puts horizontal_line if i % 3 == 0
+          row.each_with_index do |cell, j|
+            print "| " if j % 3 == 0
+            print "#{cell} "
+            print "| " if j == 8
+          end
+          puts
+        end
+        puts horizontal_line
       end
     end
   end
