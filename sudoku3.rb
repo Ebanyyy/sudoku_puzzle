@@ -55,19 +55,22 @@ def solve(sudoku_grid)
   end
 end
 
-def convert_to_array_array(string)    
-    string_grid = string.chars.each_slice(9).map(&:join)   
-    string_grid = string_grid.map { |row| row.chars.map(&:to_i) }  
-    string_grid.each do |row|
-        sudoku_grid = row.join(" ")
-        puts sudoku_grid
+def convert_to_array2(string)
+  sudoku_grid = []
+  string_grid = string.chars.each_slice(9) do |row|
+    sudoku_grid << row.map do |element| element.to_i
     end
-    return string_grid  
-end  
+  end
+    sudoku_grid.each do |row|
+    display_cleaner = row.join(" ")
+    puts display_cleaner
+    end
+  return sudoku_grid
+end
 
 puts "\n"
 puts "**Unsolved Sudoku**"
-sudoku_grid = convert_to_array_array(string)  
+sudoku_grid = convert_to_array2(string)
 puts "\n"
 puts "**Solved Sudoku!**"
 i = 0
